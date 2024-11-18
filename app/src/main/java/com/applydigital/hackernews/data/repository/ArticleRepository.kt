@@ -1,7 +1,7 @@
 package com.applydigital.hackernews.data.repository
 
 import com.applydigital.hackernews.data.local.dao.ArticleDao
-import com.applydigital.hackernews.data.remote.api.HackerNewsApi
+import com.applydigital.hackernews.data.remote.HackerNewsApi
 import com.applydigital.hackernews.domain.model.Article
 import javax.inject.Inject
 import kotlinx.coroutines.flow.Flow

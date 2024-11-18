@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.hilt)
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.kotlin.kapt)
     alias(libs.plugins.ksp)
@@ -38,6 +39,7 @@ android {
     }
     buildFeatures {
         compose = true
+        buildConfig = true
     }
 }
 
@@ -51,6 +53,8 @@ dependencies {
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
+    implementation(libs.accompanist.systemuicontroller)
+
     // Retrofit
     implementation(libs.retrofit)
     implementation(libs.logging.interceptor)
@@ -72,7 +76,6 @@ dependencies {
     implementation(libs.core.splashscreen)
     implementation(libs.foundation.android)
     implementation(libs.foundation.layout.android)
-    implementation(libs.material3.android)
 
     // Navigation
     implementation(libs.navigation.compose)
