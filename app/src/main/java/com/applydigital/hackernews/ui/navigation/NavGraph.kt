@@ -1,6 +1,14 @@
 package com.applydigital.hackernews.ui.navigation
 
+import android.net.Uri
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideOutHorizontally
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -9,6 +17,8 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.applydigital.hackernews.ui.articles.ArticlesScreen
 import com.applydigital.hackernews.ui.articles.ArticlesViewModel
+import com.applydigital.hackernews.ui.components.LoadingItem
+import com.applydigital.hackernews.ui.webview.ArticleWebScreen
 
 @Composable
 fun HackerNewsNavigation(
@@ -18,9 +28,11 @@ fun HackerNewsNavigation(
 
     NavHost(
         navController = navController,
-        startDestination = startDestination
+        startDestination = startDestination,
     ) {
-        composable(Screen.Articles.route) {
+        composable(
+            Screen.Articles.route,
+            ) {
             val viewModel: ArticlesViewModel = hiltViewModel()
             ArticlesScreen(
                 viewModel = viewModel,
@@ -34,10 +46,19 @@ fun HackerNewsNavigation(
             route = Screen.ArticleWeb.route,
             arguments = listOf(
                 navArgument("url") { type = NavType.StringType }
-            )
+            ),
+            enterTransition = {
+                fadeIn(animationSpec = tween(1000))
+            },
+            exitTransition = {
+                fadeOut(animationSpec = tween(1000))
+            }
         ) { backStackEntry ->
             val url = backStackEntry.arguments?.getString("url") ?: return@composable
-            //ArticleWebScreen(url = Uri.decode(url))
+            ArticleWebScreen(
+                url = Uri.decode(url),
+                onBackPressed = { navController.popBackStack() }
+            )
         }
     }
 }
