@@ -1,32 +1,20 @@
 package com.applydigital.hackernews.ui.articles
 
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.material3.pulltorefresh.PullToRefreshBox
-import androidx.compose.material3.pulltorefresh.pullToRefresh
 import androidx.compose.material3.pulltorefresh.rememberPullToRefreshState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.dp
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.compose.ui.platform.LocalContext
 import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.applydigital.hackernews.ui.components.ArticlesList
 import com.applydigital.hackernews.ui.components.EmptyContent
 import com.applydigital.hackernews.ui.components.ErrorContent
-import com.applydigital.hackernews.ui.components.ShimmerListElement
+import com.applydigital.hackernews.utils.isNetworkAvailable
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -40,6 +28,7 @@ fun ArticlesScreen(
     val articles = viewModel.articles.collectAsLazyPagingItems()
     val refreshing = articles.loadState.refresh is LoadState.Loading
     val pullRefreshState = rememberPullToRefreshState()
+    val context = LocalContext.current
     LaunchedEffect(Unit) {
         viewModel.refreshArticles()
     }
@@ -49,10 +38,11 @@ fun ArticlesScreen(
         isRefreshing = refreshing,
         onRefresh = {
             coroutineScope.launch {
+                if (!isNetworkAvailable(context)) pullRefreshState.animateToHidden()
                 viewModel.refreshArticles()
             }
         },
-        state = pullRefreshState
+        state = pullRefreshState,
     ) {
         when {
             articles.loadState.refresh is LoadState.Error -> {

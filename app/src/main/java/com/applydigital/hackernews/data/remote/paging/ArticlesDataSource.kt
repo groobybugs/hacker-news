@@ -9,7 +9,7 @@ import com.applydigital.hackernews.data.remote.model.ArticleResponse
 
 class ArticlesDataSource(
     private val api: HackerNewsApi,
-    private val articleDao: ArticleDao
+    private val articleDao: ArticleDao,
 ) : PagingSource<Int, ArticleResponse>() {
 
     override fun getRefreshKey(state: PagingState<Int, ArticleResponse>): Int? {
@@ -31,11 +31,10 @@ class ArticlesDataSource(
             )
 
             // Filter out deleted articles and cache the new ones
-            val filteredArticles = response.hits.filterNot { deletedIds.contains(it.objectID) }
-            if (page == 0) {
-                // Cache first page articles for offline mode
-                articleDao.insertArticles(filteredArticles.map { it.toEntity() })
+            val filteredArticles = response.hits.filterNot {
+                deletedIds.contains(it.objectID) || it.storyUrl.isEmpty()
             }
+            articleDao.insertArticles(filteredArticles.map { it.toEntity() })
 
             LoadResult.Page(
                 data = filteredArticles,
