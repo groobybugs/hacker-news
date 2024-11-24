@@ -1,4 +1,4 @@
-package com.applydigital.hackernews
+package com.applydigital.hackernews.ui.main
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
