@@ -12,7 +12,7 @@ interface ArticleDao {
     @Query("SELECT * FROM articles WHERE is_deleted = 0 ORDER BY created_at DESC")
     fun getArticles(): Flow<List<ArticleEntity>>
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertArticles(articles: List<ArticleEntity>)
 
     @Query("UPDATE articles SET is_deleted = 1 WHERE id = :articleId")
@@ -23,5 +23,8 @@ interface ArticleDao {
 
     @Query("SELECT * FROM articles WHERE is_deleted = 1")
     suspend fun getDeletedArticles(): List<ArticleEntity>
+
+    @Query("SELECT id FROM articles WHERE is_deleted = 1")
+    suspend fun getDeletedArticleIds(): List<String>
 }
 
