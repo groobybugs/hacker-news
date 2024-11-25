@@ -4,11 +4,7 @@ import android.net.Uri
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
-import androidx.compose.animation.slideInHorizontally
-import androidx.compose.animation.slideOutHorizontally
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -17,7 +13,6 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.applydigital.hackernews.ui.articles.ArticlesScreen
 import com.applydigital.hackernews.ui.articles.ArticlesViewModel
-import com.applydigital.hackernews.ui.components.LoadingItem
 import com.applydigital.hackernews.ui.webview.ArticleWebScreen
 
 @Composable

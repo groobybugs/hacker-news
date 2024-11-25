@@ -23,8 +23,5 @@ interface ArticleDao {
 
     @Query("SELECT * FROM articles WHERE is_deleted = 1")
     suspend fun getDeletedArticles(): List<ArticleEntity>
-
-    @Query("SELECT id FROM articles WHERE is_deleted = 1")
-    suspend fun getDeletedArticleIds(): List<String>
 }
 
