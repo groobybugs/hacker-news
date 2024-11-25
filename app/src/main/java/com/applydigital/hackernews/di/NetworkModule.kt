@@ -1,6 +1,8 @@
-package com.applydigital.hackernews.data.remote
+package com.applydigital.hackernews.di
 
 import com.applydigital.hackernews.BuildConfig
+import com.applydigital.hackernews.data.remote.FastJsonConverterFactory
+import com.applydigital.hackernews.data.remote.HackerNewsApi
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
